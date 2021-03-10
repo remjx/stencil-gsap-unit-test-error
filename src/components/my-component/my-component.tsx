@@ -1,5 +1,6 @@
-import { Component, Prop, h } from '@stencil/core';
+import { Component, Prop, h, Element } from '@stencil/core';
 import { format } from '../../utils/utils';
+import gsap from 'gsap'
 
 @Component({
   tag: 'my-component',
@@ -22,11 +23,18 @@ export class MyComponent {
    */
   @Prop() last: string;
 
+  @Element() el: HTMLMyComponentElement
+
+  componentDidLoad() {
+    const demo: HTMLDivElement = this.el.shadowRoot.querySelector("#demo")
+    gsap.to(demo, { x: "50%" }) // Moves text from left side of screen to center of screen
+  }
+
   private getText(): string {
     return format(this.first, this.middle, this.last);
   }
 
   render() {
-    return <div>Hello, World! I'm {this.getText()}</div>;
+    return <div id="demo">Hello, World! I'm {this.getText()}</div>;
   }
 }
